@@ -1,0 +1,12 @@
+schema: schema/schema.graphql
+documents: app/queries/**/*.gql
+extensions:
+  codegen:
+    generates:
+      app/generated/graphql.ts:
+        plugins:
+          - typescript
+          - typescript-operations
+        config:
+          preResolveTypes: true
+          exportFragmentSpreadSubTypes: true

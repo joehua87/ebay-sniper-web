@@ -1,0 +1,3 @@
+{
+  "ListingCategoriesPage": "fragment ListingCategoryRow on ListingCategory {\n  id\n  name\n  path\n}\n\nfragment Paging on Paging {\n  page\n  pageSize\n  totalEntities\n  totalPages\n}\n\n\nquery ListingCategoriesPage {\n  listingCategories {\n    entities {\n      ...ListingCategoryRow\n    }\n    paging {\n      ...Paging\n    }\n  }\n}\n"
+}

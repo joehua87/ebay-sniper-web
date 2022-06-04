@@ -1,0 +1,6 @@
+fragment Paging on Paging {
+  page
+  pageSize
+  totalEntities
+  totalPages
+}

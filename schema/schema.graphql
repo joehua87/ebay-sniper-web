@@ -1,0 +1,127 @@
+schema {
+  query: RootQueryType
+}
+
+# The `Date` scalar type represents a date. The Date appears in a JSON
+# response as an ISO8601 formatted string, without a time component.
+scalar Date
+
+type ListingCategory {
+  id: ID!
+  name: String
+  path: [String!]!
+}
+
+input ListingCategoryFilterInput {
+  name: StringFilterInput
+}
+
+type ListingCategoryListResult {
+  entities: [ListingCategory!]!
+  paging: Paging!
+}
+
+# The `Naive DateTime` scalar type represents a naive date and time without
+# timezone. The DateTime appears in a JSON response as an ISO8601 formatted
+# string.
+scalar NaiveDateTime
+
+type Order {
+  accountId: ID!
+  date: Date
+  id: ID!
+  internalState: String
+  inventoryId: ID!
+  itemsTotal: Int
+  orderItems: [OrderItem!]!
+  sellerId: ID!
+  shipments: [Shipment!]!
+  shippingCost: Int
+  state: String
+  total: Int
+  website: String
+}
+
+input OrderByInput {
+  direction: OrderDirection!
+  field: String!
+
+  # Use for order field in entry_integer_value, entry_decimal_value & friends
+  fieldType: OrderFieldType
+}
+
+enum OrderDirection {
+  ASC
+  ASC_NULLS_FIRST
+  ASC_NULLS_LAST
+  DESC
+  DESC_NULLS_FIRST
+  DESC_NULLS_LAST
+}
+
+enum OrderFieldType {
+  BOOLEAN
+  DATE
+  DATETIME
+  DECIMAL
+  INTEGER
+  TIME
+}
+
+input OrderFilterInput {
+  name: StringFilterInput
+}
+
+type OrderItem {
+  itemId: String!
+  itemsTotal: Int!
+  orderId: ID!
+  price: Int!
+  quantity: Int!
+  shippingCost: Int!
+  title: String!
+  total: Int!
+}
+
+type OrderListResult {
+  entities: [Order!]!
+  paging: Paging!
+}
+
+type Paging {
+  page: Int!
+  pageSize: Int!
+  totalEntities: Int!
+  totalPages: Int!
+}
+
+input PagingInput {
+  page: Int
+  pageSize: Int
+}
+
+type RootQueryType {
+  listingCategories(filter: ListingCategoryFilterInput, orderBy: [OrderByInput!], paging: PagingInput): ListingCategoryListResult!
+  orders(filter: OrderFilterInput, orderBy: [OrderByInput!], paging: PagingInput): OrderListResult!
+}
+
+type Shipment {
+  currentStep: Int
+  deliveredAt: Date
+  id: ID!
+  paidAt: Date
+  placedAt: NaiveDateTime
+  receivedAt: Date
+  shippedAt: Date
+  shippingService: String
+  trackingNumber: String
+  updatedAt: NaiveDateTime
+}
+
+input StringFilterInput {
+  eq: String
+  ilike: String
+  in: [String!]
+  like: String
+  neq: String
+}

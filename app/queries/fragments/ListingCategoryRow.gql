@@ -1,0 +1,5 @@
+fragment ListingCategoryRow on ListingCategory {
+  id
+  name
+  path
+}
