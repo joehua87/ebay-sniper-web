@@ -21,7 +21,7 @@ scalar Json
 type Listing {
   attributes: Json
   bidsCount: Int
-  buyItNowPrice: Int
+  buyItNowPrice: Int!
   condition: String
   description: String
   id: ID!
@@ -29,11 +29,11 @@ type Listing {
   images: [String!]!
   listingAt: DateTime
   location: String
-  price: Int
+  price: Int!
   purchaseOptions: [String!]!
   returns: Boolean
   sellerId: ID!
-  shippingPrice: Int
+  shippingPrice: Int!
   stock: Int
   title: String!
 }

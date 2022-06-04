@@ -20,7 +20,7 @@ export type Listing = {
   __typename?: 'Listing';
   attributes?: Maybe<Scalars['Json']>;
   bidsCount?: Maybe<Scalars['Int']>;
-  buyItNowPrice?: Maybe<Scalars['Int']>;
+  buyItNowPrice: Scalars['Int'];
   condition?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
@@ -28,11 +28,11 @@ export type Listing = {
   images: Array<Scalars['String']>;
   listingAt?: Maybe<Scalars['DateTime']>;
   location?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Int']>;
+  price: Scalars['Int'];
   purchaseOptions: Array<Scalars['String']>;
   returns?: Maybe<Scalars['Boolean']>;
   sellerId: Scalars['ID'];
-  shippingPrice?: Maybe<Scalars['Int']>;
+  shippingPrice: Scalars['Int'];
   stock?: Maybe<Scalars['Int']>;
   title: Scalars['String'];
 };
@@ -231,7 +231,7 @@ export type ListingCategoryRowFragment = { __typename?: 'ListingCategory', id: s
 
 export type ListingQueryRowFragment = { __typename?: 'ListingQuery', id: string, url: string, searchParams: any, config: any };
 
-export type ListingRowFragment = { __typename?: 'Listing', id: string, title: string, image?: string | null, condition?: string | null, price?: number | null, shippingPrice?: number | null, purchaseOptions: Array<string>, location?: string | null, listingAt?: any | null, returns?: boolean | null, buyItNowPrice?: number | null, bidsCount?: number | null };
+export type ListingRowFragment = { __typename?: 'Listing', id: string, title: string, image?: string | null, condition?: string | null, price: number, shippingPrice: number, purchaseOptions: Array<string>, location?: string | null, listingAt?: any | null, returns?: boolean | null, buyItNowPrice: number, bidsCount?: number | null };
 
 export type PagingFragment = { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number };
 
@@ -255,4 +255,4 @@ export type ListingQueriesPageQuery = { __typename?: 'RootQueryType', listingQue
 export type ListingsPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListingsPageQuery = { __typename?: 'RootQueryType', listings: { __typename?: 'ListingListResult', entities: Array<{ __typename?: 'Listing', id: string, title: string, image?: string | null, condition?: string | null, price?: number | null, shippingPrice?: number | null, purchaseOptions: Array<string>, location?: string | null, listingAt?: any | null, returns?: boolean | null, buyItNowPrice?: number | null, bidsCount?: number | null }>, paging: { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number } } };
+export type ListingsPageQuery = { __typename?: 'RootQueryType', listings: { __typename?: 'ListingListResult', entities: Array<{ __typename?: 'Listing', id: string, title: string, image?: string | null, condition?: string | null, price: number, shippingPrice: number, purchaseOptions: Array<string>, location?: string | null, listingAt?: any | null, returns?: boolean | null, buyItNowPrice: number, bidsCount?: number | null }>, paging: { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number } } };
