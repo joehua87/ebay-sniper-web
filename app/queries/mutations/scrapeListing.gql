@@ -1,0 +1,5 @@
+mutation ScrapeListing($listingQueryId: ID!) {
+  scrapeListing(listingQueryId: $listingQueryId) {
+    id
+  }
+}

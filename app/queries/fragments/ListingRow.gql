@@ -1,0 +1,14 @@
+fragment ListingRow on Listing {
+  id
+  title
+  image
+  condition
+  price
+  shippingPrice
+  purchaseOptions
+  location
+  listingAt
+  returns
+  buyItNowPrice
+  bidsCount
+}

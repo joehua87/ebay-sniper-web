@@ -1,0 +1,6 @@
+fragment ListingQueryRow on ListingQuery {
+  id
+  url
+  searchParams
+  config
+}

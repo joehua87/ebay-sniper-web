@@ -1,10 +1,42 @@
 schema {
   query: RootQueryType
+  mutation: RootMutationType
 }
 
 # The `Date` scalar type represents a date. The Date appears in a JSON
 # response as an ISO8601 formatted string, without a time component.
 scalar Date
+
+# The `DateTime` scalar type represents a date and time in the UTC
+# timezone. The DateTime appears in a JSON response as an ISO8601 formatted
+# string, including UTC timezone ("Z"). The parsed date and time string will
+# be converted to UTC if there is an offset.
+scalar DateTime
+
+# The `Json` scalar type represents arbitrary json string data, represented as UTF-8
+# character sequences. The Json type is most often used to represent a free-form
+# human-readable json string.
+scalar Json
+
+type Listing {
+  attributes: Json
+  bidsCount: Int
+  buyItNowPrice: Int
+  condition: String
+  description: String
+  id: ID!
+  image: String
+  images: [String!]!
+  listingAt: DateTime
+  location: String
+  price: Int
+  purchaseOptions: [String!]!
+  returns: Boolean
+  sellerId: ID!
+  shippingPrice: Int
+  stock: Int
+  title: String!
+}
 
 type ListingCategory {
   id: ID!
@@ -18,6 +50,32 @@ input ListingCategoryFilterInput {
 
 type ListingCategoryListResult {
   entities: [ListingCategory!]!
+  paging: Paging!
+}
+
+input ListingFilterInput {
+  name: StringFilterInput
+}
+
+type ListingListResult {
+  entities: [Listing!]!
+  paging: Paging!
+}
+
+type ListingQuery {
+  accountId: ID
+  config: Json!
+  id: ID!
+  searchParams: Json!
+  url: String!
+}
+
+input ListingQueryFilterInput {
+  name: StringFilterInput
+}
+
+type ListingQueryListResult {
+  entities: [ListingQuery!]!
   paging: Paging!
 }
 
@@ -100,8 +158,14 @@ input PagingInput {
   pageSize: Int
 }
 
+type RootMutationType {
+  scrapeListing(listingQueryId: ID!): [Listing!]
+}
+
 type RootQueryType {
   listingCategories(filter: ListingCategoryFilterInput, orderBy: [OrderByInput!], paging: PagingInput): ListingCategoryListResult!
+  listingQueries(filter: ListingQueryFilterInput, orderBy: [OrderByInput!], paging: PagingInput): ListingQueryListResult!
+  listings(filter: ListingFilterInput, orderBy: [OrderByInput!], paging: PagingInput): ListingListResult!
   orders(filter: OrderFilterInput, orderBy: [OrderByInput!], paging: PagingInput): OrderListResult!
 }
 

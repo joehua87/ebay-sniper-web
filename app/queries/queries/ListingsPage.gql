@@ -1,0 +1,13 @@
+#import "~/queries/fragments/ListingRow.gql"
+#import "~/queries/fragments/Paging.gql"
+
+query ListingsPage {
+  listings {
+    entities {
+      ...ListingRow
+    }
+    paging {
+      ...Paging
+    }
+  }
+}
