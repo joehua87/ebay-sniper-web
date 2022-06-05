@@ -20,8 +20,9 @@ export type Listing = {
   __typename?: 'Listing';
   attributes?: Maybe<Scalars['Json']>;
   bidsCount?: Maybe<Scalars['Int']>;
-  buyItNowPrice: Scalars['Int'];
+  buyItNowPrice?: Maybe<Scalars['Int']>;
   condition?: Maybe<Scalars['String']>;
+  currency?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
@@ -30,8 +31,9 @@ export type Listing = {
   location?: Maybe<Scalars['String']>;
   price: Scalars['Int'];
   purchaseOptions: Array<Scalars['String']>;
-  returns?: Maybe<Scalars['Boolean']>;
-  sellerId: Scalars['ID'];
+  returns?: Maybe<Scalars['String']>;
+  seller?: Maybe<User>;
+  sellerId?: Maybe<Scalars['ID']>;
   shippingPrice: Scalars['Int'];
   stock?: Maybe<Scalars['Int']>;
   title: Scalars['String'];
@@ -161,12 +163,18 @@ export type PagingInput = {
 
 export type RootMutationType = {
   __typename?: 'RootMutationType';
-  scrapeListing?: Maybe<Array<Listing>>;
+  scrapeListing: Array<Listing>;
+  updateListing: Listing;
 };
 
 
 export type RootMutationTypeScrapeListingArgs = {
   listingQueryId: Scalars['ID'];
+};
+
+
+export type RootMutationTypeUpdateListingArgs = {
+  id: Scalars['ID'];
 };
 
 export type RootQueryType = {
@@ -227,11 +235,24 @@ export type StringFilterInput = {
   neq?: InputMaybe<Scalars['String']>;
 };
 
+export type User = {
+  __typename?: 'User';
+  feedbackText?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  negativeFeedback?: Maybe<Scalars['Int']>;
+  neutralFeedback?: Maybe<Scalars['Int']>;
+  positiveFeedback?: Maybe<Scalars['Int']>;
+  receivedAsSellerFeedback?: Maybe<Scalars['Int']>;
+  registeredAt?: Maybe<Scalars['NaiveDateTime']>;
+  totalFeedback?: Maybe<Scalars['Int']>;
+  username: Scalars['String'];
+};
+
 export type ListingCategoryRowFragment = { __typename?: 'ListingCategory', id: string, name?: string | null, path: Array<string> };
 
 export type ListingQueryRowFragment = { __typename?: 'ListingQuery', id: string, url: string, searchParams: any, config: any };
 
-export type ListingRowFragment = { __typename?: 'Listing', id: string, title: string, image?: string | null, condition?: string | null, price: number, shippingPrice: number, purchaseOptions: Array<string>, location?: string | null, listingAt?: any | null, returns?: boolean | null, buyItNowPrice: number, bidsCount?: number | null };
+export type ListingRowFragment = { __typename?: 'Listing', id: string, title: string, image?: string | null, condition?: string | null, price: number, shippingPrice: number, purchaseOptions: Array<string>, location?: string | null, listingAt?: any | null, returns?: string | null, buyItNowPrice?: number | null, currency?: string | null, bidsCount?: number | null, sellerId?: string | null, seller?: { __typename?: 'User', id: string, username: string, totalFeedback?: number | null, feedbackText?: string | null } | null };
 
 export type PagingFragment = { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number };
 
@@ -240,7 +261,14 @@ export type ScrapeListingMutationVariables = Exact<{
 }>;
 
 
-export type ScrapeListingMutation = { __typename?: 'RootMutationType', scrapeListing?: Array<{ __typename?: 'Listing', id: string }> | null };
+export type ScrapeListingMutation = { __typename?: 'RootMutationType', scrapeListing: Array<{ __typename?: 'Listing', id: string }> };
+
+export type UpdateListingMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UpdateListingMutation = { __typename?: 'RootMutationType', updateListing: { __typename?: 'Listing', id: string } };
 
 export type ListingCategoriesPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -255,4 +283,4 @@ export type ListingQueriesPageQuery = { __typename?: 'RootQueryType', listingQue
 export type ListingsPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListingsPageQuery = { __typename?: 'RootQueryType', listings: { __typename?: 'ListingListResult', entities: Array<{ __typename?: 'Listing', id: string, title: string, image?: string | null, condition?: string | null, price: number, shippingPrice: number, purchaseOptions: Array<string>, location?: string | null, listingAt?: any | null, returns?: boolean | null, buyItNowPrice: number, bidsCount?: number | null }>, paging: { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number } } };
+export type ListingsPageQuery = { __typename?: 'RootQueryType', listings: { __typename?: 'ListingListResult', entities: Array<{ __typename?: 'Listing', id: string, title: string, image?: string | null, condition?: string | null, price: number, shippingPrice: number, purchaseOptions: Array<string>, location?: string | null, listingAt?: any | null, returns?: string | null, buyItNowPrice?: number | null, currency?: string | null, bidsCount?: number | null, sellerId?: string | null, seller?: { __typename?: 'User', id: string, username: string, totalFeedback?: number | null, feedbackText?: string | null } | null }>, paging: { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number } } };

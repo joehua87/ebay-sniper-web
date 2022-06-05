@@ -1,0 +1,5 @@
+mutation UpdateListing($id: ID!) {
+  updateListing(id: $id) {
+    id
+  }
+}

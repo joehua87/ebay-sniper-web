@@ -10,5 +10,13 @@ fragment ListingRow on Listing {
   listingAt
   returns
   buyItNowPrice
+  currency
   bidsCount
+  sellerId
+  seller {
+    id
+    username
+    totalFeedback
+    feedbackText
+  }
 }

@@ -1,5 +1,5 @@
 import type { LoaderFunction } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { useFetcher, useLoaderData } from '@remix-run/react'
 import { getUrqlClient } from '~/client'
 import numeral from 'numeral'
 import type {
@@ -16,6 +16,7 @@ function Price({ value, className }: { value: number; className?: string }) {
 
 export default function ListingsPage() {
   const data = useLoaderData<ListingsPageQuery>()
+  const fetcher = useFetcher()
 
   return (
     <div className="p-4">
@@ -33,12 +34,34 @@ export default function ListingsPage() {
               </figure>
             </div>
             <div className="pl-4">
+              <a
+                target="_blank"
+                href={`https://www.ebay.com/itm/${item.id}`}
+                rel="noreferrer"
+              >
+                Go to
+              </a>
               <div className="text-gray-700">{item.title}</div>
+              <div className="text-sm text-gray-500">{item.condition}</div>
               <Price className="font-bold text-gray-900" value={item.price} />
+              <div className="text-sm text-gray-500">{item.currency}</div>
               <div className="text-sm text-gray-500">{item.listingAt}</div>
               <div className="text-sm text-gray-500">
                 {item.purchaseOptions.join(', ')}
               </div>
+              {item.seller && (
+                <div>
+                  Seller:
+                  <span className="ml-2">{item.seller.username}</span>
+                  <span className="ml-2">
+                    {item.seller.feedbackText} ({item.seller.totalFeedback})
+                  </span>
+                </div>
+              )}
+              <fetcher.Form action={`/api/listings/${item.id}`} method="post">
+                <input type="hidden" name="id" value={item.id} />
+                <button type="submit">Update</button>
+              </fetcher.Form>
             </div>
           </div>
         ))}
@@ -53,7 +76,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const { data, error } = await getUrqlClient()
     .query<ListingsPageQuery, ListingsPageQueryVariables>(document, {})
     .toPromise()
-
+  console.log(data, error?.graphQLErrors[0])
   if (error) {
     throw new Response(error.message, { status: 400 })
   }

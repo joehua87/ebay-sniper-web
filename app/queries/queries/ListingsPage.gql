@@ -2,7 +2,10 @@
 #import "~/queries/fragments/Paging.gql"
 
 query ListingsPage {
-  listings {
+  listings(
+    paging: { pageSize: 240 }
+    orderBy: [{ field: "title", direction: DESC }]
+  ) {
     entities {
       ...ListingRow
     }

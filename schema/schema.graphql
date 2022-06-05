@@ -21,8 +21,9 @@ scalar Json
 type Listing {
   attributes: Json
   bidsCount: Int
-  buyItNowPrice: Int!
+  buyItNowPrice: Int
   condition: String
+  currency: String
   description: String
   id: ID!
   image: String
@@ -31,8 +32,9 @@ type Listing {
   location: String
   price: Int!
   purchaseOptions: [String!]!
-  returns: Boolean
-  sellerId: ID!
+  returns: String
+  seller: User
+  sellerId: ID
   shippingPrice: Int!
   stock: Int
   title: String!
@@ -159,7 +161,8 @@ input PagingInput {
 }
 
 type RootMutationType {
-  scrapeListing(listingQueryId: ID!): [Listing!]
+  scrapeListing(listingQueryId: ID!): [Listing!]!
+  updateListing(id: ID!): Listing!
 }
 
 type RootQueryType {
@@ -188,4 +191,16 @@ input StringFilterInput {
   in: [String!]
   like: String
   neq: String
+}
+
+type User {
+  feedbackText: String
+  id: ID!
+  negativeFeedback: Int
+  neutralFeedback: Int
+  positiveFeedback: Int
+  receivedAsSellerFeedback: Int
+  registeredAt: NaiveDateTime
+  totalFeedback: Int
+  username: String!
 }
