@@ -1,0 +1,20 @@
+#import "~/queries/fragments/ShipmentItem.gql"
+
+fragment WarehouseReceiveRow on WarehouseReceive {
+  id
+  valueTotal
+  shippingTotal
+  total
+  shipments {
+    id
+    shipmentId
+    shipment {
+      ...ShipmentItem
+    }
+    shippingCost
+    images {
+      id
+      caption
+    }
+  }
+}

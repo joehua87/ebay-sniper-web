@@ -1,0 +1,5 @@
+mutation CreateWarehouseReceive($data: WarehouseReceiveInput!) {
+  createWarehouseReceive(data: $data) {
+    id
+  }
+}

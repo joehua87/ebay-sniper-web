@@ -1,0 +1,15 @@
+fragment ShipmentItem on Shipment {
+  id
+  orderId
+  order {
+    id
+    total
+  }
+  value
+  paidAt
+  shippedAt
+  deliveredAt
+  receivedAt
+  trackingNumber
+  currentStep
+}

@@ -1,0 +1,13 @@
+#import "~/queries/fragments/OrderRow.gql"
+#import "~/queries/fragments/Paging.gql"
+
+query OrdersPage($orderBy: [OrderByInput!]) {
+  orders(paging: { pageSize: 240 }, orderBy: $orderBy) {
+    entities {
+      ...OrderRow
+    }
+    paging {
+      ...Paging
+    }
+  }
+}

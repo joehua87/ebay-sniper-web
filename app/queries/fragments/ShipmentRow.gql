@@ -1,0 +1,9 @@
+#import "~/queries/fragments/ShipmentItem.gql"
+#import "~/queries/fragments/OrderRow.gql"
+
+fragment ShipmentRow on Shipment {
+  ...ShipmentItem
+  order {
+    ...OrderRow
+  }
+}

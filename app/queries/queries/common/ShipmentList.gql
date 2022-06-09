@@ -1,0 +1,13 @@
+#import "~/queries/fragments/ShipmentItem.gql"
+#import "~/queries/fragments/Paging.gql"
+
+query ShipmentList($filter: ShipmentFilterInput, $orderBy: [OrderByInput!]) {
+  shipments(filter: $filter, orderBy: $orderBy) {
+    entities {
+      ...ShipmentItem
+    }
+    paging {
+      ...Paging
+    }
+  }
+}

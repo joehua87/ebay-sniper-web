@@ -7,11 +7,52 @@ schema {
 # response as an ISO8601 formatted string, without a time component.
 scalar Date
 
+input DateFilterInput {
+  eq: Date
+  gt: Date
+  gte: Date
+  lt: Date
+  lte: Date
+  neq: Date
+}
+
 # The `DateTime` scalar type represents a date and time in the UTC
 # timezone. The DateTime appears in a JSON response as an ISO8601 formatted
 # string, including UTC timezone ("Z"). The parsed date and time string will
 # be converted to UTC if there is an offset.
 scalar DateTime
+
+input IdFilterInput {
+  eq: ID
+  in: [ID!]
+  neq: ID
+  nin: [ID!]
+}
+
+type Image {
+  caption: String
+  id: String!
+}
+
+input ImageInput {
+  caption: String
+  id: String!
+}
+
+input IntegerFilterInput {
+  eq: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  neq: Int
+}
+
+type Inventory {
+  id: ID!
+  provider: String!
+}
 
 # The `Json` scalar type represents arbitrary json string data, represented as UTF-8
 # character sequences. The Json type is most often used to represent a free-form
@@ -20,6 +61,7 @@ scalar Json
 
 type Listing {
   attributes: Json
+  auctionPrice: Int
   bidsCount: Int
   buyItNowPrice: Int
   condition: String
@@ -29,6 +71,7 @@ type Listing {
   image: String
   images: [String!]!
   listingAt: DateTime
+  listingEndAt: DateTime
   location: String
   price: Int!
   purchaseOptions: [String!]!
@@ -88,17 +131,19 @@ scalar NaiveDateTime
 
 type Order {
   accountId: ID!
-  date: Date
+  date: Date!
   id: ID!
-  internalState: String
+  internalState: String!
+  inventory: Inventory!
   inventoryId: ID!
-  itemsTotal: Int
-  orderItems: [OrderItem!]!
+  items: [OrderItem!]!
+  itemsTotal: Int!
+  seller: User!
   sellerId: ID!
   shipments: [Shipment!]!
-  shippingCost: Int
-  state: String
-  total: Int
+  shippingCost: Int!
+  state: String!
+  total: Int!
   website: String
 }
 
@@ -129,7 +174,12 @@ enum OrderFieldType {
 }
 
 input OrderFilterInput {
+  id: IdFilterInput
+  internalState: StringFilterInput
+  inventoryId: IdFilterInput
   name: StringFilterInput
+  sellerId: IdFilterInput
+  state: StringFilterInput
 }
 
 type OrderItem {
@@ -161,6 +211,7 @@ input PagingInput {
 }
 
 type RootMutationType {
+  createWarehouseReceive(data: WarehouseReceiveInput!): WarehouseReceive!
   scrapeListing(listingQueryId: ID!): [Listing!]!
   updateListing(id: ID!): Listing!
 }
@@ -170,19 +221,49 @@ type RootQueryType {
   listingQueries(filter: ListingQueryFilterInput, orderBy: [OrderByInput!], paging: PagingInput): ListingQueryListResult!
   listings(filter: ListingFilterInput, orderBy: [OrderByInput!], paging: PagingInput): ListingListResult!
   orders(filter: OrderFilterInput, orderBy: [OrderByInput!], paging: PagingInput): OrderListResult!
+  shipmentAggregate: [ShipmentAggregateItem!]!
+  shipments(filter: ShipmentFilterInput, orderBy: [OrderByInput!], paging: PagingInput): ShipmentListResult!
+  warehouseReceives(filter: WarehouseReceiveFilterInput, orderBy: [OrderByInput!], paging: PagingInput): WarehouseReceiveListResult!
 }
 
 type Shipment {
   currentStep: Int
   deliveredAt: Date
   id: ID!
+  order: Order!
+  orderId: ID!
   paidAt: Date
   placedAt: NaiveDateTime
   receivedAt: Date
   shippedAt: Date
-  shippingService: String
+  state: String
   trackingNumber: String
   updatedAt: NaiveDateTime
+  value: Int!
+}
+
+type ShipmentAggregateItem {
+  count: Int!
+  state: String!
+  total: Int!
+}
+
+input ShipmentFilterInput {
+  currentStep: IntegerFilterInput
+  deliveredAt: DateFilterInput
+  id: IdFilterInput
+  paidAt: DateFilterInput
+  receivedAt: DateFilterInput
+  shippedAt: DateFilterInput
+  shippingService: StringFilterInput
+  state: StringFilterInput
+  trackingNumber: StringFilterInput
+  value: IntegerFilterInput
+}
+
+type ShipmentListResult {
+  entities: [Shipment!]!
+  paging: Paging!
 }
 
 input StringFilterInput {
@@ -203,4 +284,42 @@ type User {
   registeredAt: NaiveDateTime
   totalFeedback: Int
   username: String!
+}
+
+type WarehouseReceive {
+  id: ID!
+  shipments: [WarehouseReceiveShipment!]!
+  shippingTotal: Int!
+  total: Int!
+  valueTotal: Int!
+}
+
+input WarehouseReceiveFilterInput {
+  name: StringFilterInput
+}
+
+input WarehouseReceiveInput {
+  items: [WarehouseReceiveShipmentInput!]!
+}
+
+type WarehouseReceiveListResult {
+  entities: [WarehouseReceive!]!
+  paging: Paging!
+}
+
+type WarehouseReceiveShipment {
+  id: ID!
+  images: [Image!]!
+  order: Order!
+  orderId: ID!
+  shipment: Shipment!
+  shipmentId: ID!
+  shippingCost: Int!
+  warehouseReceiveId: ID!
+}
+
+input WarehouseReceiveShipmentInput {
+  images: [ImageInput!]!
+  shipmentId: ID!
+  shippingCost: Int!
 }

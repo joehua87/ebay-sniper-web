@@ -1,0 +1,18 @@
+#import "~/queries/fragments/ShipmentRow.gql"
+#import "~/queries/fragments/Paging.gql"
+
+query ShipmentsPage($filter: ShipmentFilterInput, $orderBy: [OrderByInput!]) {
+  shipmentAggregate {
+    state
+    count
+    total
+  }
+  shipments(filter: $filter, paging: { pageSize: 240 }, orderBy: $orderBy) {
+    entities {
+      ...ShipmentRow
+    }
+    paging {
+      ...Paging
+    }
+  }
+}

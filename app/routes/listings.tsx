@@ -1,18 +1,12 @@
 import type { LoaderFunction } from '@remix-run/node'
 import { useFetcher, useLoaderData } from '@remix-run/react'
 import { getUrqlClient } from '~/client'
-import numeral from 'numeral'
+import { Money } from '~/components/Money'
 import type {
   ListingsPageQuery,
   ListingsPageQueryVariables,
 } from '~/generated/graphql'
 import { getDocument } from '~/queries'
-
-function Price({ value, className }: { value: number; className?: string }) {
-  return (
-    <span className={className}>{numeral(value / 100).format('$0,0.00')}</span>
-  )
-}
 
 export default function ListingsPage() {
   const data = useLoaderData<ListingsPageQuery>()
@@ -43,9 +37,25 @@ export default function ListingsPage() {
               </a>
               <div className="text-gray-700">{item.title}</div>
               <div className="text-sm text-gray-500">{item.condition}</div>
-              <Price className="font-bold text-gray-900" value={item.price} />
+              <Money className="font-bold text-gray-900" value={item.price} />
+              {item.buyItNowPrice && (
+                <div>
+                  <label>Buy it now: </label>
+                  <Money
+                    className="font-bold text-gray-900"
+                    value={item.buyItNowPrice}
+                  />
+                </div>
+              )}
               <div className="text-sm text-gray-500">{item.currency}</div>
-              <div className="text-sm text-gray-500">{item.listingAt}</div>
+              <div className="text-sm text-gray-500">
+                {new Date(item.listingAt).toLocaleString()}
+              </div>
+              {item.listingEndAt && (
+                <div className="text-sm text-gray-500">
+                  End at: {new Date(item.listingEndAt).toLocaleString()}
+                </div>
+              )}
               <div className="text-sm text-gray-500">
                 {item.purchaseOptions.join(', ')}
               </div>

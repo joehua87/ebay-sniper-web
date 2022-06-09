@@ -1,0 +1,33 @@
+fragment OrderRow on Order {
+  id
+  state
+  date
+  inventoryId
+  inventory {
+    id
+    provider
+  }
+  sellerId
+  seller {
+    id
+    username
+  }
+  shipments {
+    id
+    paidAt
+    shippedAt
+    deliveredAt
+    receivedAt
+    trackingNumber
+    currentStep
+  }
+  items {
+    itemId
+    title
+    price
+    quantity
+    itemsTotal
+    shippingCost
+    total
+  }
+}
