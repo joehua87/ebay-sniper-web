@@ -1,5 +1,6 @@
 import type { LoaderFunction } from '@remix-run/node'
 import { useLoaderData, useSearchParams } from '@remix-run/react'
+import { IconLink } from '@tabler/icons'
 import clsx from 'clsx'
 import { getUrqlClient } from '~/client'
 import { Money } from '~/components/Money'
@@ -71,7 +72,20 @@ export default function ShipmentsPage() {
           </div>
           {data.shipments.entities.map((x) => (
             <div key={x.id} className="flex gap-2 pb-1 mb-1 border-b">
-              <div className="w-48">{x.trackingNumber}</div>
+              <div className="w-48">
+                <span className="flex items-center">
+                  <a
+                    className="mr-1 text-gray-700"
+                    target="_blank"
+                    href={`https://order.ebay.com/ord/show?orderId=${x.order.id}#/`}
+                    rel="noreferrer"
+                  >
+                    <IconLink className="w-4 h-4" />
+                  </a>
+
+                  {x.trackingNumber}
+                </span>
+              </div>
               <div className="w-16">{x.order.inventory.provider}</div>
               <div className="w-72">
                 {x.order.items.map((x) => (

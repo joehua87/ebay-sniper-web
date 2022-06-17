@@ -3,6 +3,7 @@ fragment ListingRow on Listing {
   title
   image
   condition
+  stock
   price
   shippingPrice
   purchaseOptions

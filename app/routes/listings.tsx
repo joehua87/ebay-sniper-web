@@ -23,7 +23,11 @@ export default function ListingsPage() {
                 <img
                   className="object-contain bg-gray-100 border rounded"
                   alt={item.title}
-                  src={`https://i.ebayimg.com/thumbs/images/g/${item.image}.jpg`}
+                  src={
+                    item.image?.startsWith('https')
+                      ? item.image
+                      : `https://i.ebayimg.com/thumbs/images/g/${item.image}.jpg`
+                  }
                 />
               </figure>
             </div>
@@ -37,6 +41,7 @@ export default function ListingsPage() {
               </a>
               <div className="text-gray-700">{item.title}</div>
               <div className="text-sm text-gray-500">{item.condition}</div>
+              <div className="text-sm text-gray-500">{item.stock}</div>
               <Money className="font-bold text-gray-900" value={item.price} />
               {item.buyItNowPrice && (
                 <div>
