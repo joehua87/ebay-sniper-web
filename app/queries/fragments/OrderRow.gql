@@ -3,6 +3,9 @@ fragment OrderRow on Order {
   state
   date
   inventoryId
+  account {
+    username
+  }
   inventory {
     id
     provider

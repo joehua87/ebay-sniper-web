@@ -16,6 +16,14 @@ export type Scalars = {
   NaiveDateTime: any;
 };
 
+export type Account = {
+  __typename?: 'Account';
+  cookie?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
 export type DateFilterInput = {
   eq?: InputMaybe<Scalars['Date']>;
   gt?: InputMaybe<Scalars['Date']>;
@@ -132,6 +140,7 @@ export type ListingQueryListResult = {
 
 export type Order = {
   __typename?: 'Order';
+  account: Account;
   accountId: Scalars['ID'];
   date: Scalars['Date'];
   id: Scalars['ID'];
@@ -399,13 +408,13 @@ export type ListingQueryRowFragment = { __typename?: 'ListingQuery', id: string,
 
 export type ListingRowFragment = { __typename?: 'Listing', id: string, title: string, image?: string | null, condition?: string | null, stock?: number | null, price: number, shippingPrice: number, purchaseOptions: Array<string>, location?: string | null, listingAt?: any | null, listingEndAt?: any | null, returns?: string | null, buyItNowPrice?: number | null, currency?: string | null, bidsCount?: number | null, sellerId?: string | null, seller?: { __typename?: 'User', id: string, username: string, totalFeedback?: number | null, feedbackText?: string | null } | null };
 
-export type OrderRowFragment = { __typename?: 'Order', id: string, state: string, date: any, inventoryId: string, sellerId: string, inventory: { __typename?: 'Inventory', id: string, provider: string }, seller: { __typename?: 'User', id: string, username: string }, shipments: Array<{ __typename?: 'Shipment', id: string, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null }>, items: Array<{ __typename?: 'OrderItem', itemId: string, title: string, price: number, quantity: number, itemsTotal: number, shippingCost: number, total: number }> };
+export type OrderRowFragment = { __typename?: 'Order', id: string, state: string, date: any, inventoryId: string, sellerId: string, account: { __typename?: 'Account', username: string }, inventory: { __typename?: 'Inventory', id: string, provider: string }, seller: { __typename?: 'User', id: string, username: string }, shipments: Array<{ __typename?: 'Shipment', id: string, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null }>, items: Array<{ __typename?: 'OrderItem', itemId: string, title: string, price: number, quantity: number, itemsTotal: number, shippingCost: number, total: number }> };
 
 export type PagingFragment = { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number };
 
 export type ShipmentItemFragment = { __typename?: 'Shipment', id: string, orderId: string, value: number, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null, order: { __typename?: 'Order', id: string, total: number } };
 
-export type ShipmentRowFragment = { __typename?: 'Shipment', id: string, orderId: string, value: number, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null, order: { __typename?: 'Order', id: string, total: number, state: string, date: any, inventoryId: string, sellerId: string, inventory: { __typename?: 'Inventory', id: string, provider: string }, seller: { __typename?: 'User', id: string, username: string }, shipments: Array<{ __typename?: 'Shipment', id: string, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null }>, items: Array<{ __typename?: 'OrderItem', itemId: string, title: string, price: number, quantity: number, itemsTotal: number, shippingCost: number, total: number }> } };
+export type ShipmentRowFragment = { __typename?: 'Shipment', id: string, orderId: string, value: number, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null, order: { __typename?: 'Order', id: string, total: number, state: string, date: any, inventoryId: string, sellerId: string, account: { __typename?: 'Account', username: string }, inventory: { __typename?: 'Inventory', id: string, provider: string }, seller: { __typename?: 'User', id: string, username: string }, shipments: Array<{ __typename?: 'Shipment', id: string, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null }>, items: Array<{ __typename?: 'OrderItem', itemId: string, title: string, price: number, quantity: number, itemsTotal: number, shippingCost: number, total: number }> } };
 
 export type WarehouseReceiveRowFragment = { __typename?: 'WarehouseReceive', id: string, valueTotal: number, shippingTotal: number, total: number, shipments: Array<{ __typename?: 'WarehouseReceiveShipment', id: string, shipmentId: string, shippingCost: number, shipment: { __typename?: 'Shipment', id: string, orderId: string, value: number, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null, order: { __typename?: 'Order', id: string, total: number } }, images: Array<{ __typename?: 'Image', id: string, caption?: string | null }> }> };
 
@@ -450,7 +459,7 @@ export type OrdersPageQueryVariables = Exact<{
 }>;
 
 
-export type OrdersPageQuery = { __typename?: 'RootQueryType', orders: { __typename?: 'OrderListResult', entities: Array<{ __typename?: 'Order', id: string, state: string, date: any, inventoryId: string, sellerId: string, inventory: { __typename?: 'Inventory', id: string, provider: string }, seller: { __typename?: 'User', id: string, username: string }, shipments: Array<{ __typename?: 'Shipment', id: string, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null }>, items: Array<{ __typename?: 'OrderItem', itemId: string, title: string, price: number, quantity: number, itemsTotal: number, shippingCost: number, total: number }> }>, paging: { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number } } };
+export type OrdersPageQuery = { __typename?: 'RootQueryType', orders: { __typename?: 'OrderListResult', entities: Array<{ __typename?: 'Order', id: string, state: string, date: any, inventoryId: string, sellerId: string, account: { __typename?: 'Account', username: string }, inventory: { __typename?: 'Inventory', id: string, provider: string }, seller: { __typename?: 'User', id: string, username: string }, shipments: Array<{ __typename?: 'Shipment', id: string, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null }>, items: Array<{ __typename?: 'OrderItem', itemId: string, title: string, price: number, quantity: number, itemsTotal: number, shippingCost: number, total: number }> }>, paging: { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number } } };
 
 export type ShipmentsPageQueryVariables = Exact<{
   filter?: InputMaybe<ShipmentFilterInput>;
@@ -458,7 +467,7 @@ export type ShipmentsPageQueryVariables = Exact<{
 }>;
 
 
-export type ShipmentsPageQuery = { __typename?: 'RootQueryType', shipmentAggregate: Array<{ __typename?: 'ShipmentAggregateItem', state: string, count: number, total: number }>, shipments: { __typename?: 'ShipmentListResult', entities: Array<{ __typename?: 'Shipment', id: string, orderId: string, value: number, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null, order: { __typename?: 'Order', id: string, total: number, state: string, date: any, inventoryId: string, sellerId: string, inventory: { __typename?: 'Inventory', id: string, provider: string }, seller: { __typename?: 'User', id: string, username: string }, shipments: Array<{ __typename?: 'Shipment', id: string, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null }>, items: Array<{ __typename?: 'OrderItem', itemId: string, title: string, price: number, quantity: number, itemsTotal: number, shippingCost: number, total: number }> } }>, paging: { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number } } };
+export type ShipmentsPageQuery = { __typename?: 'RootQueryType', shipmentAggregate: Array<{ __typename?: 'ShipmentAggregateItem', state: string, count: number, total: number }>, shipments: { __typename?: 'ShipmentListResult', entities: Array<{ __typename?: 'Shipment', id: string, orderId: string, value: number, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null, order: { __typename?: 'Order', id: string, total: number, state: string, date: any, inventoryId: string, sellerId: string, account: { __typename?: 'Account', username: string }, inventory: { __typename?: 'Inventory', id: string, provider: string }, seller: { __typename?: 'User', id: string, username: string }, shipments: Array<{ __typename?: 'Shipment', id: string, paidAt?: any | null, shippedAt?: any | null, deliveredAt?: any | null, receivedAt?: any | null, trackingNumber?: string | null, currentStep?: number | null }>, items: Array<{ __typename?: 'OrderItem', itemId: string, title: string, price: number, quantity: number, itemsTotal: number, shippingCost: number, total: number }> } }>, paging: { __typename?: 'Paging', page: number, pageSize: number, totalEntities: number, totalPages: number } } };
 
 export type WarehouseReceivesPageQueryVariables = Exact<{
   filter?: InputMaybe<WarehouseReceiveFilterInput>;

@@ -62,6 +62,7 @@ export default function ShipmentsPage() {
         <div className="text-xs">
           <div className="flex gap-2 pb-1 mb-1 font-semibold text-gray-600 border-b">
             <div className="w-48">Tracking</div>
+            <div className="w-16">Account</div>
             <div className="w-16">Inventory</div>
             <div className="w-72">Order</div>
             <div className="w-20 pr-4 text-right">Value</div>
@@ -86,6 +87,7 @@ export default function ShipmentsPage() {
                   {x.trackingNumber}
                 </span>
               </div>
+              <div className="w-16">{x.order.account.username}</div>
               <div className="w-16">{x.order.inventory.provider}</div>
               <div className="w-72">
                 {x.order.items.map((x) => (

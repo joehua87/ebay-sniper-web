@@ -3,6 +3,13 @@ schema {
   mutation: RootMutationType
 }
 
+type Account {
+  cookie: String
+  id: ID!
+  password: String!
+  username: String!
+}
+
 # The `Date` scalar type represents a date. The Date appears in a JSON
 # response as an ISO8601 formatted string, without a time component.
 scalar Date
@@ -130,6 +137,7 @@ type ListingQueryListResult {
 scalar NaiveDateTime
 
 type Order {
+  account: Account!
   accountId: ID!
   date: Date!
   id: ID!
