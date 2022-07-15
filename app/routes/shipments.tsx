@@ -31,6 +31,16 @@ export default function ShipmentsPage() {
   return (
     <div className="p-4">
       <div>{data.shipments.paging.totalEntities} items</div>
+      <button
+        onClick={() => {
+          const message = data.shipments.entities
+            .map((x) => `${x.trackingNumber}\t${x.deliveredAt}`)
+            .join('\n')
+          console.log(message)
+        }}
+      >
+        Console.log
+      </button>
       <div className="grid grid-cols-5">
         {states.map((s) => {
           const count = statesMap[s]?.count || 0
